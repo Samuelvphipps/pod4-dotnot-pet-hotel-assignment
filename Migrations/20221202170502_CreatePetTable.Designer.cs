@@ -12,7 +12,7 @@ using pet_hotel.Models;
 namespace dotnetbakery.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    [Migration("20221201194417_CreatePetTable")]
+    [Migration("20221202170502_CreatePetTable")]
     partial class CreatePetTable
     {
         /// <inheritdoc />
@@ -51,6 +51,8 @@ namespace dotnetbakery.Migrations
 
                     b.HasKey("id");
 
+                    b.HasIndex("petOwnerId");
+
                     b.ToTable("Pets");
                 });
 
@@ -76,6 +78,17 @@ namespace dotnetbakery.Migrations
                     b.HasKey("id");
 
                     b.ToTable("PetOwners");
+                });
+
+            modelBuilder.Entity("pet_hotel.Pet", b =>
+                {
+                    b.HasOne("pet_hotel.PetOwner", "petOwner")
+                        .WithMany()
+                        .HasForeignKey("petOwnerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("petOwner");
                 });
 #pragma warning restore 612, 618
         }

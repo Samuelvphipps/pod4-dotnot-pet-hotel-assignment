@@ -7,7 +7,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace dotnetbakery.Migrations
 {
     /// <inheritdoc />
-    public partial class CreatePetOwnerTable : Migration
+    public partial class CreatePetTable : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -42,17 +42,28 @@ namespace dotnetbakery.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Pets", x => x.id);
+                    table.ForeignKey(
+                        name: "FK_Pets_PetOwners_petOwnerId",
+                        column: x => x.petOwnerId,
+                        principalTable: "PetOwners",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
                 });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Pets_petOwnerId",
+                table: "Pets",
+                column: "petOwnerId");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "PetOwners");
+                name: "Pets");
 
             migrationBuilder.DropTable(
-                name: "Pets");
+                name: "PetOwners");
         }
     }
 }

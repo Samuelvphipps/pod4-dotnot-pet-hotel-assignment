@@ -52,5 +52,7 @@ namespace pet_hotel
         [ForeignKey("petOwner")]
         public int petOwnerId {get; set;}
 
+        public PetOwner petOwner {get; set;}
+
     }
 }
