@@ -27,41 +27,47 @@ namespace pet_hotel.Controllers
             return _context.Pets;
         }
 
+        // maybe not working? passed test count didnt change
         [HttpGet("{id}")]
         public ActionResult<Pet> GetPets(int id)
         {
             Pet pet = _context.Pets
                 .SingleOrDefault(pet => pet.id == id);
 
-                return pet;
+            if(pet is null)
+            {
+                return NotFound();
+            }
+            return pet;
         }
 
+        // possibly working, but json error for the breeds, try once database is changed
         [HttpPost]
-        public Pet Post(Pet pet) 
+        public IActionResult Post(Pet pet) 
         {
             _context.Add(pet);
             _context.SaveChanges();
-
-            return pet;
+            return CreatedAtAction(nameof(Post), new { id = pet.id }, pet);
         }
+
 
         [HttpPut("{id}")]
         public Pet Put(int id, Pet pet)
         {
             pet.id = id;
             _context.Update(pet);
-
             _context.SaveChanges();
-
             return pet;
         }
 
+        //not passing even after update
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public IActionResult Delete(int id)
         {
             Pet pet = _context.Pets.Find(id);
             _context.Remove(pet);
             _context.SaveChanges();
+            return NoContent();
         }
         
 
