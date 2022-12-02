@@ -5,7 +5,7 @@
 namespace dotnetbakery.Migrations
 {
     /// <inheritdoc />
-    public partial class CreatePetTable : Migration
+    public partial class CreatePetOwnerTable : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
